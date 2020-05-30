@@ -1,10 +1,23 @@
-!function()
+/**
+ * DatePickerX
+ * Cool light visual date picker on pure JavaScript
+ * Browsers support: Chrome 45+, FireFox 40+, Safari 8+, IE10+, iOS Safari 8+, Android Browser 4.4+
+ * @author    Alexander Krupko <alex@avrora.team>
+ * @copyright 2016 Avrora Team www.avrora.team
+ * @license   MIT
+ * @tutorial  http://datepickerx.avrora.team
+ * @version   1.0.4
+ */
+
+(function()
 {
     'use strict';
 
     var optionsDefault = {
         mondayFirst      : true,
-        format           : 'yyyy/mm/dd',
+        format           : 'dd-MM-yyyy',
+        altFormat        : 'yyyy-mm-dd',
+        altInput         : '',
         minDate          : new Date(0, 0),
         maxDate          : new Date(9999, 11, 31),
         weekDayLabels    : ['Mo', 'Tu', 'We', 'Th', 'Fr', 'St', 'Su'],
@@ -13,7 +26,7 @@
         todayButton      : true,
         todayButtonLabel : 'Today',
         clearButton      : true,
-        clearButtonLabel : 'Clear'
+        clearButtonLabel : 'Clear Date'
     },
         openedDPX = null;
 
@@ -33,7 +46,7 @@
         !Array.isArray(classes) && (classes = [classes]);
 
         var el = document.createElement(tag);
-        for (var i = classes.length; i--; el.classList.add(classes[i]));
+        for (var i = classes.length; i--; el.classList.add(classes[i]))
 
         title && (el.title = title);
         el.innerHTML = html || '';
@@ -500,6 +513,10 @@
 
                     value = dt.getTime();
                     input.value = getFormatedDate(dt, options.format);
+
+                    if(options.altInput!=''){
+						document.getElementById(options.altInput).value=getFormatedDate(dt, options.altFormat);
+					}
                 }
 
                 var e = document.createEvent('Event');
@@ -521,7 +538,7 @@
             {
                 !inited && console.error('DatePickerX, getValue: Date picker doesn\'t init yet.');
 
-                return timestamp ? value : (value === null ? '' : getFormatedDate(new Date(value), options.format));
+                return timestamp ? value : (value === null ? '' : getFormatedDate(new Date(value), options.format));		//options.altFormat
             },
 
             /**
@@ -566,7 +583,7 @@
 
             return dpxObjects[index];
         },
-        set: function() {} 
+        set: function() {}
     });
 
     window.DatePickerX = {
@@ -595,4 +612,4 @@
             return true;
         }
     };
-}();
+})();
